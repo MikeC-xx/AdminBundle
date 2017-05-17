@@ -1,0 +1,26 @@
+{% if not list is defined %}
+{% set placeholder = true %}
+{% set list = [] %}
+{% else %}
+{% set placeholder = false %}
+{% endif %}
+<table
+    class="table table-hover"
+    data-dynamic-content="{{ path('admin_entity_list', { 'className': className }) }}"
+    data-dynamic-content-columns="{{ columns|json_encode }}"
+    data-dynamic-content-placeholder="{% filter escape %}{% include 'AdminBundle::_partial/list_content.html.twig' with { placeholder: true, columns: columns } %}{% endfilter %}"
+    >
+    <thead class="thead-sticky">
+        <tr>
+            <th colspan="{{ columns|length + 1 }}">{% include 'AdminBundle::_partial/list_filter.html.twig' with { page: page } %}</th>
+        </tr>
+        {% if placeholder or list|length > 0 %}
+        <tr>
+            {% include 'AdminBundle::_partial/table_header.html.twig' with { columns: columns } %}
+        </tr>
+        {% endif %}
+    </thead>
+    {% if not placeholder %}
+    {% include 'AdminBundle::_partial/list_content.html.twig' with { placeholder: placeholder, list: list, columns: columns, page: page, pageCount: pageCount } %}
+    {% endif %}
+</table>

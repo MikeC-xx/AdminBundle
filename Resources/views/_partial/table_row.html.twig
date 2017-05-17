@@ -1,0 +1,4 @@
+{% if header is defined and header %}
+<th>{{ column.name is defined ? column.name : column.property|split('.')|last|humanize|transchoice(1) }}</th>
+{% endif %}
+<td>{% include 'AdminBundle::_partial/property_value.html.twig' with { entity: entity, column: column } %}</td>

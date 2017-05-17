@@ -1,0 +1,15 @@
+.thead-sticky {
+    position: sticky;
+    z-index: 9;
+    top: 99px;
+    background-color: #fff;
+}
+
+.thead-sticky.thead-inverse {
+    background-color: $brand-inverse;
+}
+
+.tfoot-sticky {
+    position: sticky;
+    bottom: $footer-height;
+}

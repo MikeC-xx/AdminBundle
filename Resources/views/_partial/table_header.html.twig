@@ -1,0 +1,4 @@
+{% for column in columns %}
+    <th{{ column.attr is defined ? attr|htmlAttributes }}>{{ column.property|humanize|transchoice(1) }}</th>
+{% endfor %}
+<th></th>

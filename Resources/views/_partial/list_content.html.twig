@@ -1,0 +1,72 @@
+{% if not placeholder is defined %}
+{% set placeholder = false %}
+{% endif %}
+<tbody>
+{% if placeholder or list|length > 0 %}
+    {% if placeholder %}
+        <tr>
+            <td colspan="{{ columns|length + 1 }}">
+                <div class="d-flex justify-content-center">
+                    <div class="loader"></div>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        {% for entity in list %}
+        <tr data-href="{{ path('admin_entity_show', { 'className': className, 'id': entity.id }) }}">
+            {% for column in columns %}
+            <td>
+                {% include 'AdminBundle::_partial/property_value.html.twig' with { entity: entity, column: column } %}
+            </td>
+            {% endfor %}
+            <td class="text-right">
+                <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-sm btn-primary">Upravit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <tr>
+        <td colspan="{{ columns|length + 1 }}">{{ 'No records found.'|trans}}</td>
+    </tr>
+{% endif %}
+</tbody>
+{% if not placeholder and pageCount > 1 %}
+{% set lowRange = page %}
+{% set hiRange = page %}
+{% for i in range(1, 2) %}
+    {% if lowRange > 1 %}
+        {% set lowRange = lowRange - 1 %}
+    {% elseif hiRange < pageCount %}
+        {% set hiRange = hiRange + 1 %}
+    {% endif %}
+    {% if hiRange < pageCount %}
+        {% set hiRange = hiRange + 1 %}
+    {% elseif lowRange > 1 %}
+        {% set lowRange = lowRange - 1 %}
+    {% endif %}
+{% endfor %}
+<tfoot class="tfoot-sticky">
+    <tr>
+        <td colspan="{{ columns|length + 1 }}">
+            <nav aria-label="Stránková navigace">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item{{ page == 1 ? ' disabled' }}">
+                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page - 1 > 0 ? page - 1 : 1) }) }}" aria-label="Předchozí" data-page="{{ page - 1 > 0 ? page - 1 : 1 }}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for i in range(lowRange, hiRange) %}
+                    <li class="page-item{{ page == i ? ' active'}}"><a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': i }) }}" data-page="{{ i }}">{{ i }}</a></li>
+                    {% endfor %}
+                    <li class="page-item{{ page == pageCount ? ' disabled' }}">
+                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page + 1 < pageCount ? page + 1 : pageCount) }) }}" aria-label="Další" data-page="{{ page + 1 < pageCount ? page + 1 : pageCount }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </td>
+    </tr>
+</tfoot>
+{% endif %}

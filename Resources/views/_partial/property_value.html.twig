@@ -1,0 +1,5 @@
+{% set obj = entity %}
+{% for key in column.property|split('.') %}
+{% set obj = attribute(obj, key) %}
+{% endfor %}
+{{ obj|propertyValue(column) }}

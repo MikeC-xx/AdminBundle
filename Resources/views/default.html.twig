@@ -1,0 +1,87 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% set routes = {
+    'AppBundle\\Entity\\KingsRide': {
+        'title': 'The Kings\' Ride'
+    }
+} %}
+
+{% block title %}{{ routes[className].title is defined ? routes[className].title|transchoice(2) : className|split('\\')|last|humanize|transchoice(2) }}{% endblock %}
+
+{% block body %}
+    {% block header %}
+    <header class="header">
+        <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {#<a class="navbar-brand" href="{{ path('homepage') }}">ORTIKA a. s.</a>#}
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item{{ app.request.get('_route') == 'admin_homepage' ? ' active' }}">
+                        <a class="nav-link" href="{{ path('admin_homepage') }}">{{ 'Home'|trans }}</a>
+                    </li>
+                    {% for key in routes|keys %}
+                        {% set route = routes[key] %}
+                        {% if not route.role is defined or is_granted(routes.role) %}
+                        <li class="nav-item">
+                            <a class="nav-link{{ app.request.get('className') == key ? ' active'}}" href="{{ path('admin_entity_index', { 'className': key }) }}">
+                                {{ block('title') }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <ul class="navbar-nav ml-lg-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            {{ app.user }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ path('admin_entity_show', { 'className': 'AdminBundle\Entity\User', 'id': app.user.id }) }}">
+                                {{ 'Settings'|trans }}
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ path('logout') }}">
+                                {{ 'Logout'|trans }}
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="breadcrumb">
+            {% block breadcrumbsList %}{% endblock %}
+            <span class="breadcrumb-item active">{{ block('title') }}</span>
+        </nav>
+    </header>
+    {% endblock %}
+
+    <main class="main">
+        <div class="container-fluid">
+            <h1 class="mb-3">{{ block('title') }}</h1>
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }}">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    {% block footer %}
+    <footer class="footer">
+        <div class="container-fluid">
+            <span class="text-muted">Copyright © {{ 'now'|date('Y') }} <a href="https://michael.cenker.cz">Michael Cenker</a></span>
+        </div>
+    </footer>
+    {% endblock %}
+{% endblock %}

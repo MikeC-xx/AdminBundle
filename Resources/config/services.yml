@@ -1,0 +1,7 @@
+services:
+    admin.twig_extension:
+        class: AdminBundle\Twig\AdminExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+        arguments: ["@request_stack"]
