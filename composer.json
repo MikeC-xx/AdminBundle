@@ -12,7 +12,6 @@
   "license": [
     "MIT"
   ],
-  "minimum-stability": "master",
   "require": {
   },
   "autoload": {
