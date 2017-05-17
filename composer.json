@@ -1,0 +1,25 @@
+{
+  "name": "adminbundle",
+  "description" : "AdminBundle",
+  "type": "symfony-bundle",
+  "authors": [{
+    "name": "Mikec",
+    "email": "mike.cenker@gmail.com"
+  }],
+  "keywords": [
+    "admin bundle"
+  ],
+  "license": [
+    "MIT"
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-0": {
+      "AdminBundle": ""
+    }
+  },
+  "target-dir": "AdminBundle",
+  "repositories": [{
+  }]
+}
