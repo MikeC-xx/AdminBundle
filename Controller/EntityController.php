@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityController extends Controller
 {
@@ -63,6 +64,34 @@ class EntityController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
+
+
+            if (array_key_exists('Gedmo\\Uploadable\\Uploadable', class_implements(get_class($entity)))) {
+                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                $uploadableManager->markEntityToUpload($entity, $entity->getFile());
+            }
+
+            $associationMappings = $this->getEntityClassMetaData($className)->getAssociationMappings();
+            $markToUpload = [];
+            if (count($associationMappings) > 0) {
+                foreach($associationMappings as $key => $value)
+                {
+                    if (array_key_exists('Gedmo\\Uploadable\\Uploadable', class_implements($value['targetEntity']))) {
+                        $markToUpload[] = $key;
+                    }
+                }
+            }
+
+            if (count($markToUpload) > 0) {
+                $accessor = PropertyAccess::createPropertyAccessor();
+                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                foreach($markToUpload as $property)
+                {
+                    $document = $accessor->getValue($entity, $property);
+                    $uploadableManager->markEntityToUpload($document, $document->getFile());
+                }
+            }
+
             $em->flush();
 
             $this->addFlash(

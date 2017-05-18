@@ -28,4 +28,9 @@ abstract class BaseEntity implements BaseEntityInterface
     {
         return static::getIndexColumns();
     }
+
+    public function getHasTranslatableToString()
+    {
+        return false;
+    }
 }

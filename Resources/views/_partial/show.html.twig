@@ -5,44 +5,46 @@
 {% endblock %}
 
 {% block title %}
-{{ entity|transEntity }}
+{{ entity.hasTranslatableToString ? entity|transEntity : entity }}
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <table class="table">
-        <tbody>
-            {% for column in columns %}
-                <tr>
-                    {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': column, 'header': true } %}
-                </tr>
-            {% endfor %}
-            <tr><td colspan="2"></td></tr>
-            {% set extraColumns = ['createdAt', 'createdBy', 'updatedAt', 'updatedBy'] %}
-            {% for extraColumn in extraColumns %}
-            {% if attribute(entity, extraColumn) is defined %}
-                <tr>
-                    {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': { 'property': extraColumn }, 'header': true } %}
-                </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="form-inline">
-        <div class="form-group mr-3">
-            <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-primary form-control">{{ 'Edit'|trans }}</a>
-        </div>
-        <div class="form-group">
-            <a href="{{ path('admin_entity_index', { 'className': className }) }}" class="btn btn-danger form-control">{{ 'Back'|trans }}</a>
-        </div>
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table">
+            <tbody>
+                {% for column in columns %}
+                    <tr>
+                        {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': column, 'header': true } %}
+                    </tr>
+                {% endfor %}
+                <tr><td colspan="2"></td></tr>
+                {% set extraColumns = ['createdAt', 'createdBy', 'updatedAt', 'updatedBy'] %}
+                {% for extraColumn in extraColumns %}
+                {% if attribute(entity, extraColumn) is defined %}
+                    <tr>
+                        {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': { 'property': extraColumn }, 'header': true } %}
+                    </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
-    {% if entity.documents is defined %}
-    {% include 'AdminBundle::_partial/documents.html.twig' with { 'entity': entity } %}
-    {% endif %}
-
-    {% if entity.comments is defined %}
-    {% include 'AdminBundle::_partial/comments.html.twig' with { 'entity': entity } %}
-    {% endif %}
 </div>
+<div class="form-inline">
+    <div class="form-group mr-3">
+        <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-primary form-control">{{ 'Edit'|trans }}</a>
+    </div>
+    <div class="form-group">
+        <a href="{{ path('admin_entity_index', { 'className': className }) }}" class="btn btn-danger form-control">{{ 'Back'|trans }}</a>
+    </div>
+</div>
+
+{% if entity.documents is defined %}
+{% include 'AdminBundle::_partial/documents.html.twig' with { 'entity': entity } %}
+{% endif %}
+
+{% if entity.comments is defined %}
+{% include 'AdminBundle::_partial/comments.html.twig' with { 'entity': entity } %}
+{% endif %}
 {% endblock %}
