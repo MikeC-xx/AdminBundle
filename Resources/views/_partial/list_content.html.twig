@@ -20,7 +20,7 @@
             </td>
             {% endfor %}
             <td class="text-right">
-                <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-sm btn-primary">Upravit</a>
+                <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-sm btn-primary">{{ 'Edit'|trans }}</a>
             </td>
         </tr>
         {% endfor %}
@@ -49,10 +49,10 @@
 <tfoot class="tfoot-sticky">
     <tr>
         <td colspan="{{ columns|length + 1 }}">
-            <nav aria-label="Stránková navigace">
+            <nav aria-label="{{ 'Page navigation'|trans }}">
                 <ul class="pagination justify-content-center">
                     <li class="page-item{{ page == 1 ? ' disabled' }}">
-                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page - 1 > 0 ? page - 1 : 1) }) }}" aria-label="Předchozí" data-page="{{ page - 1 > 0 ? page - 1 : 1 }}">
+                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page - 1 > 0 ? page - 1 : 1) }) }}" aria-label="{{ 'Previous'|trans }}" data-page="{{ page - 1 > 0 ? page - 1 : 1 }}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -60,7 +60,7 @@
                     <li class="page-item{{ page == i ? ' active'}}"><a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': i }) }}" data-page="{{ i }}">{{ i }}</a></li>
                     {% endfor %}
                     <li class="page-item{{ page == pageCount ? ' disabled' }}">
-                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page + 1 < pageCount ? page + 1 : pageCount) }) }}" aria-label="Další" data-page="{{ page + 1 < pageCount ? page + 1 : pageCount }}">
+                        <a class="page-link" href="{{ path('admin_entity_index', { 'className': className, 'page': (page + 1 < pageCount ? page + 1 : pageCount) }) }}" aria-label="{{ 'Next'|trans }}" data-page="{{ page + 1 < pageCount ? page + 1 : pageCount }}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

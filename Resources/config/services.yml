@@ -4,4 +4,4 @@ services:
         public: false
         tags:
             - { name: twig.extension }
-        arguments: ["@request_stack"]
+        arguments: ["@request_stack", "@translator"]

@@ -18,6 +18,7 @@ class EntityController extends Controller
         return $this->render('AdminBundle::_partial/index.html.twig', [
             'className' => $className,
             'columns' => $className::getIndexColumns(),
+            'config' => $this->getParameter('admin.config'),
             'list' => $query['list'],
             'page' => $page,
             'pageCount' => $query['pageCount']
@@ -25,22 +26,25 @@ class EntityController extends Controller
     }
 
     /**
-     * @Route("/entity/{className}/{id}", name="admin_entity_show", requirements={"id=\d+"})
+     * @Route("/entity/{className}/{id}", name="admin_entity_show", requirements={"id"="\d+"})
      */
     public function showAction(Request $request, $className, $id) {
-        $formClass = self::getEntityFormClass($className);
+        //$formClass = self::getEntityFormClass($className);
         $entity = $this->getEntityRepository($className)->find($id);
-        $form = $this->createForm($formClass, $entity);
+        //$form = $this->createForm($formClass, $entity);
 
         return $this->render('AdminBundle::_partial/show.html.twig', [
-            'entity' => $entity,
-            'form' => $form->createView()
+            'className' => $className,
+            'columns' => $className::getShowColumns(),
+            'config' => $this->getParameter('admin.config'),
+            'entity' => $entity
+            //'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/entity/{className}/{id}/edit", name="admin_entity_edit", requirements={"id=\d+"})
      * @Route("/entity/{className}/new", name="admin_entity_new")
+     * @Route("/entity/{className}/{id}/edit", name="admin_entity_edit", requirements={"id"="\d+"})
      */
     public function editAction(Request $request, $className, $id = null)
     {
@@ -63,26 +67,29 @@ class EntityController extends Controller
 
             $this->addFlash(
                 'success',
-                'Záznam byl uložen.'
+                'Record was saved.'
             );
 
             return $this->redirectToRoute('admin_entity_show', ['className' => $className, 'id' => $entity->getId()]);
         }
 
         return $this->render('AdminBundle::_partial/edit.html.twig', [
+            'className' => $className,
+            'config' => $this->getParameter('admin.config'),
             'entity' => $entity,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/entity_list?className={className}&page={page}", name="admin_entity_list", defaults={"page" = 1})
+     * @Route("/entity_list/{className}", name="admin_entity_list", defaults={"page" = 1})
      */
     public function listAction(Request $request, $className, $page)
     {
         $query = $this->getEntityList($request, $className, $page);
 
         return $this->render('AdminBundle::_partial/list_content.html.twig', [
+            'className' => $className,
             'columns' => $className::getIndexColumns(),
             'list' => $query['list'],
             'page' => $page,

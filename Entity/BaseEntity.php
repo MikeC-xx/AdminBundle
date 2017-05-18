@@ -26,6 +26,6 @@ abstract class BaseEntity implements BaseEntityInterface
 
     public static function getShowColumns()
     {
-        return self::getIndexColumns();
+        return static::getIndexColumns();
     }
 }

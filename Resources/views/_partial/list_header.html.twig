@@ -4,12 +4,12 @@
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="">
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary" type="button">Hledat</button>
+                    <button type="submit" class="btn btn-primary" type="button">{{ 'Search'|trans }}</button>
                 </span>
             </div>
         </div>
         <div class="col-lg-6 d-flex justify-content-end">
-            <a href="{{ path('admin_entity_new', { 'className': className }) }}" class="btn btn-success">Nový záznam</a>
+            <a href="{{ path('admin_entity_new', { 'className': className }) }}" class="btn btn-success">{{ 'New record'|trans }}</a>
         </div>
     </div>
     <input type="hidden" name="page" value="{{ page }}" />

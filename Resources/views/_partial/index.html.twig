@@ -1,5 +1,7 @@
 {% extends 'AdminBundle::default.html.twig' %}
 
+{% block title %}{{ routes[className].title is defined ? routes[className].title|transchoice(2) : className|split('\\')|last|humanize|transchoice(2) }}{% endblock %}
+
 {% block content %}
 {% embed 'AdminBundle::_partial/list.html.twig' %}{% endembed %}
 {% endblock %}

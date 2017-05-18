@@ -14,6 +14,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AdminBundle::default/index.html.twig');
+        return $this->render('AdminBundle::default/index.html.twig', [
+            'config' => $this->getParameter('admin.config')
+        ]);
     }
 }

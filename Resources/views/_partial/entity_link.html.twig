@@ -1,1 +1,1 @@
-<a href="{{ path(showRoute, { id: entity.id }) }}">{{ entity }}</a>
+<a href="{{ path('admin_entity_show', { 'className': className, 'id': entity.id }) }}">{{ entity|transEntity }}</a>

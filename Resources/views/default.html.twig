@@ -6,8 +6,6 @@
     }
 } %}
 
-{% block title %}{{ routes[className].title is defined ? routes[className].title|transchoice(2) : className|split('\\')|last|humanize|transchoice(2) }}{% endblock %}
-
 {% block body %}
     {% block header %}
     <header class="header">
@@ -21,12 +19,12 @@
                     <li class="nav-item{{ app.request.get('_route') == 'admin_homepage' ? ' active' }}">
                         <a class="nav-link" href="{{ path('admin_homepage') }}">{{ 'Home'|trans }}</a>
                     </li>
-                    {% for key in routes|keys %}
-                        {% set route = routes[key] %}
-                        {% if not route.role is defined or is_granted(routes.role) %}
+                    {% for key in config.entities|keys %}
+                        {% set route = config.entities[key] %}
+                        {% if not route.role is defined or is_granted(route.role) %}
                         <li class="nav-item">
                             <a class="nav-link{{ app.request.get('className') == key ? ' active'}}" href="{{ path('admin_entity_index', { 'className': key }) }}">
-                                {{ block('title') }}
+                                {{ config.entities[key].title is defined ? config.entities[key].title|transchoice(2) : key|split('\\')|last|humanize|transchoice(2) }}
                             </a>
                         </li>
                         {% endif %}

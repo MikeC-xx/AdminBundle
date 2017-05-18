@@ -1,4 +1,4 @@
 {% for column in columns %}
-    <th{{ column.attr is defined ? attr|htmlAttributes }}>{{ column.property|humanize|transchoice(1) }}</th>
+    <th{{ column.attr is defined ? column.attr|htmlAttributes }}>{{ column.property is defined ? column.property|humanize|trans : column|humanize|trans }}</th>
 {% endfor %}
 <th></th>

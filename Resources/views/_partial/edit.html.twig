@@ -1,11 +1,11 @@
 {% extends 'AdminBundle::default.html.twig' %}
 
 {% block breadcrumbsList %}
-<a class="breadcrumb-item" href="{{ path('admin_entity_index', { 'className': className }) }}">{{ block('title') }}</a>
+<a class="breadcrumb-item" href="{{ path('admin_entity_index', { 'className': className }) }}">{{ config.entities[className].title is defined ? config.entities[className].title|transchoice(2) : className|split('\\')|last|humanize|transchoice(2) }}</a>
 {% endblock %}
 
 {% block title %}
-{{ app.request.get('_route') == newRoute ? newRoute|humanize|trans : entity }}
+{{ app.request.get('_route') == 'admin_entity_new' ? 'New record'|trans : entity|transEntity }}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,9 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
             <button type="submit" name="save" class="btn-success btn mr-3">{{ 'Save'|trans }}</button>
-            <a href="{{ cancelUrl }}" name="cancel" class="btn-danger btn">{{ 'Cancel'|trans }}</a>
+            <a href="{{ app.request.get('_route') == 'admin_entity_new' ? path('admin_entity_index', { 'className': className }) : path('admin_entity_show', { 'className': className, 'id': entity.id }) }}" name="cancel" class="btn-danger btn">
+                {{ 'Cancel'|trans }}
+            </a>
         </div>
     </div>
     {{ form_end(form) }}

@@ -1,20 +1,20 @@
 {% extends 'AdminBundle::default.html.twig' %}
 
 {% block breadcrumbsList %}
-<a class="breadcrumb-item" href="{{ path(indexRoute) }}">{{ indexRoute|humanize|transchoice(2) }}</a>
+<a class="breadcrumb-item" href="{{ path('admin_entity_index', { 'className': className }) }}">{{ config.entities[className].title is defined ? config.entities[className].title|transchoice(2) : className|split('\\')|last|humanize|transchoice(2) }}</a>
 {% endblock %}
 
 {% block title %}
-{{ entity }}
+{{ entity|transEntity }}
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <table class="table">
         <tbody>
-            {% for column in columnArray %}
+            {% for column in columns %}
                 <tr>
-                    {% include 'AdminBundle::_partial/table_row.html.twig' with { entity: entity, column: column, header: true } %}
+                    {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': column, 'header': true } %}
                 </tr>
             {% endfor %}
             <tr><td colspan="2"></td></tr>
@@ -22,7 +22,7 @@
             {% for extraColumn in extraColumns %}
             {% if attribute(entity, extraColumn) is defined %}
                 <tr>
-                    {% include 'AdminBundle::_partial/table_row.html.twig' with { entity: entity, column: { property: extraColumn }, header: true } %}
+                    {% include 'AdminBundle::_partial/table_row.html.twig' with { 'entity': entity, 'column': { 'property': extraColumn }, 'header': true } %}
                 </tr>
             {% endif %}
             {% endfor %}
@@ -30,19 +30,19 @@
     </table>
     <div class="form-inline">
         <div class="form-group mr-3">
-            <a href="{{ path(editRoute, { id: entity.id }) }}" class="btn btn-primary form-control">{{ 'Edit'|trans }}</a>
+            <a href="{{ path('admin_entity_edit', { 'className': className, 'id': entity.id }) }}" class="btn btn-primary form-control">{{ 'Edit'|trans }}</a>
         </div>
         <div class="form-group">
-            <a href="{{ path(indexRoute) }}" class="btn btn-danger form-control">{{ 'Back'|trans }}</a>
+            <a href="{{ path('admin_entity_index', { 'className': className }) }}" class="btn btn-danger form-control">{{ 'Back'|trans }}</a>
         </div>
     </div>
 
     {% if entity.documents is defined %}
-    {% include 'AdminBundle::_partial/documents.html.twig' with { entity: entity } %}
+    {% include 'AdminBundle::_partial/documents.html.twig' with { 'entity': entity } %}
     {% endif %}
 
     {% if entity.comments is defined %}
-    {% include 'AdminBundle::_partial/comments.html.twig' with { entity: entity } %}
+    {% include 'AdminBundle::_partial/comments.html.twig' with { 'entity': entity } %}
     {% endif %}
 </div>
 {% endblock %}

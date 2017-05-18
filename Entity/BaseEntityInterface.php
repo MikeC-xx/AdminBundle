@@ -5,7 +5,6 @@ namespace AdminBundle\Entity;
 /**
  * Base entity interface
  *
- * @ORM\MappedSuperclass
  */
 interface BaseEntityInterface
 {
