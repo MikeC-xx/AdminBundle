@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EntityController extends Controller
 {
     /**
-     * @Route("/entity/{className}", name="admin_entity_index", defaults={"page" = 1})
+     * @Route("/entity/{className}", name="admin_entity_index", defaults={"page"=1})
      */
     public function indexAction(Request $request, $className, $page)
     {
