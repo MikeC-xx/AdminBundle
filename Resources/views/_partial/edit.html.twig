@@ -22,3 +22,17 @@
 </div>
 {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    window.CKEDITOR_BASEPATH = '{{ asset('bundles/admin/ckeditor/') }}';
+</script>
+<script src="{{ asset('bundles/admin/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.config.language = '{{ app.request.get('_locale') }}';
+    [].forEach.call(document.getElementsByClassName('wysiwyg'), function (wysiwyg) {
+        CKEDITOR.replace(wysiwyg);
+    });
+</script>
+{% endblock %}

@@ -15,6 +15,12 @@ module.exports = {
         cwd: '<%= paths.bower %>/components-font-awesome/fonts/',
         src: ['**/*'],
         dest: '<%= paths.dist %>/fonts/'
+      },
+      {
+        expand: true,
+        cwd: '<%= paths.bower %>/ckeditor/',
+        src: ['**/*'],
+        dest: '<%= paths.dist %>/ckeditor/'
       }
     ]
   }

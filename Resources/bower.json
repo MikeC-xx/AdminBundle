@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "v4.0.0-alpha.6",
-    "components-font-awesome": "^4.7.0"
+    "components-font-awesome": "^4.7.0",
+    "ckeditor": "#full/4.6.2"
   }
 }
