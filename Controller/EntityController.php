@@ -88,7 +88,9 @@ class EntityController extends Controller
                 foreach($markToUpload as $property)
                 {
                     $document = $accessor->getValue($entity, $property);
-                    $uploadableManager->markEntityToUpload($document, $document->getFile());
+                    if ($document) {
+                        $uploadableManager->markEntityToUpload($document, $document->getFile());
+                    }                    
                 }
             }
 
