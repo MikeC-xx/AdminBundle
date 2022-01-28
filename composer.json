@@ -1,5 +1,5 @@
 {
-  "name": "adminbundle",
+  "name": "mikec-xx/adminbundle",
   "description" : "AdminBundle",
   "type": "symfony-bundle",
   "authors": [{
