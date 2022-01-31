@@ -38,18 +38,21 @@
       return this.each(function () {
         var $this = $(this);
         var params = {};
+        var page = 1;
 
         methods.replaceContent.apply($this, [$this.data('dynamic-content-placeholder')]);
 
         $this.data('form-filter').serializeArray().forEach(function (param) {
-          params[param.name] = param.value;
+          if (param.name === 'page') {
+            page = param.value;
+          } else {
+            params[param.name] = param.value;
+          }
         });
 
         $.post(
-          $this.data('dynamic-content'),
-          Object.assign({}, params, {
-            columnArray: $this.data('column-array')
-          }),
+          $this.data('dynamic-content')+'/'+page,
+          params,
           function (data) {
             methods.replaceContent.apply($this, [data]);
           }

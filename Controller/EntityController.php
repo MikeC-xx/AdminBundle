@@ -11,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class EntityController extends Controller
 {
     /**
-     * @Route("/entity/{className}", name="admin_entity_index", defaults={"page"=1})
+     * @Route("/entity/{className}/{page}", name="admin_entity_index", defaults={"page"=1})
      */
     public function indexAction(Request $request, $className, $page)
     {
@@ -116,7 +116,7 @@ class EntityController extends Controller
     }
 
     /**
-     * @Route("/entity_list/{className}", name="admin_entity_list", defaults={"page" = 1})
+     * @Route("/entity_list/{className}/{page}", name="admin_entity_list", defaults={"page"=1})
      */
     public function listAction(Request $request, $className, $page)
     {

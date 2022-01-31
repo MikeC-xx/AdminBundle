@@ -9,8 +9,8 @@ module.exports = function (grunt) {
 
     // Paths
     paths: {
-      src: '.',
-      dist: 'public',
+      src: 'Resources',
+      dist: 'Resources/public',
       npm: 'node_modules',
       bower: 'bower_components',
       temp: '.tmp',
