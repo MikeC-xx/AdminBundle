@@ -65,10 +65,11 @@ class EntityController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
-
             if (array_key_exists('Gedmo\\Uploadable\\Uploadable', class_implements(get_class($entity)))) {
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $uploadableManager->markEntityToUpload($entity, $entity->getFile());
+                if (is_a($entity->getFile(), 'Symfony\\Component\\HttpFoundation\\File\\UploadedFile')) {
+                    $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                    $uploadableManager->markEntityToUpload($entity, $entity->getFile());
+                }
             }
 
             $associationMappings = $this->getEntityClassMetaData($className)->getAssociationMappings();
@@ -89,7 +90,9 @@ class EntityController extends Controller
                 {
                     $document = $accessor->getValue($entity, $property);
                     if ($document) {
-                        $uploadableManager->markEntityToUpload($document, $document->getFile());
+                        if (is_a($document->getFile(), 'Symfony\\Component\\HttpFoundation\\File\\UploadedFile')) {
+                            $uploadableManager->markEntityToUpload($document, $document->getFile());
+                        }                        
                     }                    
                 }
             }
