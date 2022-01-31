@@ -51,7 +51,7 @@
         });
 
         $.post(
-          $this.data('dynamic-content')+'/'+page,
+          $this.data('dynamic-content')+'?page='+page,
           params,
           function (data) {
             methods.replaceContent.apply($this, [data]);

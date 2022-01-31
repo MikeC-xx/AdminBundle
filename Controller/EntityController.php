@@ -11,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class EntityController extends Controller
 {
     /**
-     * @Route("/entity/{className}/{page}", name="admin_entity_index", defaults={"page"=1})
+     * @Route("/entity/{className}?page={page}", name="admin_entity_index", defaults={"page"=1})
      */
     public function indexAction(Request $request, $className, $page)
     {
@@ -116,7 +116,7 @@ class EntityController extends Controller
     }
 
     /**
-     * @Route("/entity_list/{className}/{page}", name="admin_entity_list", defaults={"page"=1})
+     * @Route("/entity_list/{className}?page={page}", name="admin_entity_list", defaults={"page"=1})
      */
     public function listAction(Request $request, $className, $page)
     {
@@ -130,76 +130,6 @@ class EntityController extends Controller
             'pageCount' => $query['pageCount']
         ]);
     }
-
-    /*
-    protected function renderIndexAction(Request $request)
-    {
-        return $this->render($this->getTemplatePath('index'), [
-            'indexRoute' => $this->getRoute(),
-            'listRoute' => $this->getRoute('list'),
-            'newRoute' => $this->getRoute('new'),
-            'showRoute' => $this->getRoute('show'),
-            'editRoute' => $this->getRoute('edit'),
-            'page' => $request->get('page')
-        ]);
-    }
-
-    protected function renderShowAction(Request $request, $entity) {
-        $formClass = $this->getFormClass();
-
-        $form = $this->createForm($formClass, $entity);
-
-        return $this->render($this->getTemplatePath('show'), [
-            'entity' => $entity,
-            'editRoute' => $this->getRoute('edit'),
-            'form' => $form->createView(),
-            'indexRoute' => $this->getRoute(),
-            'indexRouteName' => $this->getRoute()
-        ]);
-    }
-
-    protected function renderEditAction(Request $request, $entity = null)
-    {
-        $entityClass = $this->getEntityClass();
-        if ($entity === null) {
-            $entity = new $entityClass();
-            $cancelUrl = $this->generateUrl($this->getRoute());
-        } else if (get_class($entity) !== $entityClass) {
-            throw new \Exception('Unsupported class ' . get_class($entity) . '. Class ' . $entityClass . ' expected.');
-        } else {
-            $cancelUrl = $this->generateUrl($this->getRoute('show'), ['id' => $entity->getId()]);
-        }
-
-        $formClass = $this->getFormClass();
-
-        $form = $this->createForm($formClass, $entity);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getEntityManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->addFlash(
-                'success',
-                'Záznam byl uložen.'
-            );
-
-            return $this->redirectToRoute($this->getRoute('show'), ['id' => $entity->getId()]);
-        }
-
-        return $this->render($this->getTemplatePath('edit'), [
-            'cancelUrl' => $cancelUrl,
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'indexRoute' => $this->getRoute(),
-            'indexRouteName' => $this->getRoute(),
-            'newRoute' => $this->getRoute('new'),
-            'newRouteName' => $this->getRoute('new')
-        ]);
-    }
-    */
 
     protected function getEntityList(Request $request, $className, $page)
     {
